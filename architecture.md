@@ -2,7 +2,7 @@
 
 ## Architecture Overview
 
-Automated Documentation Synchronization keeps repository documentation aligned with code by triggering an automated pipeline on repository changes. On pushes to `main`, a GitHub Actions workflow invokes a documentation-generation stage (using GitHub Copilot Agent Mode and language-specific doc generators), validates output (content quality and secrets scanning), creates backups, and opens a Pull Request containing documented updates. All activities are logged and surfaced to maintainers via notifications.
+Automated Documentation Synchronization keeps repository documentation aligned with code by triggering an automated pipeline on repository changes. On pushes to `main`, a GitHub Actions workflow invokes a documentation-generation stage using GitHub Copilot Agent Mode and language-specific doc generators, validates output for quality and secrets, creates backups, and opens a Pull Request containing documented updates. All activities are logged and surfaced to maintainers through notifications.
 
 ## Components
 
@@ -26,7 +26,7 @@ Automated Documentation Synchronization keeps repository documentation aligned w
 - **Pull Request Manager**: Create a descriptive PR with diffs, CI badges, generation metadata, and a checklist for maintainers.
 - **Audit Log Service**: Persist execution traces, inputs, outputs, and validation results for traceability and compliance.
 - **Notification Service**: Notify maintainers of failures, PRs ready for review, and periodic summaries.
-- **Config & Templates**: Drive doc format, scope, and generation rules; maintained by repo owners.
+- **Config & Templates**: Drive doc format, scope, and generation rules; maintained by repository owners.
 - **Access & Security Controls**: Enforce least privilege, rotate secrets, use OIDC where possible, and restrict who can merge generated PRs.
 
 ## Data Flow
@@ -61,6 +61,42 @@ Automated Documentation Synchronization keeps repository documentation aligned w
 - Add retry and backoff strategies and health checks to meet 99% reliability (NFR-3).
 - Maintain an auditable retention policy for backups and logs (NFR-4, BR-4).
 
+## Security and Access Control
+
+- The workflow should run with least-privilege permissions and scoped repository access.
+- Authentication should use OIDC or short-lived credentials wherever possible instead of long-lived secrets.
+- The documentation generation process should operate in a constrained environment that limits exposure of repository contents and secrets.
+- Secret scanning and policy checks should run before any PR is created or any generated content is merged.
+- Branch protection rules, required reviewers, and merge approval policies should be enforced for all generated documentation PRs.
+- Generated content should be treated as untrusted until validation passes and should not be merged automatically without review.
+
+## Failure Handling and Rollback
+
+- Each pipeline stage should be designed to fail safely and leave the repository in a consistent state.
+- Validation failures should halt PR creation and surface clear audit trails and notifications.
+- Generated documentation should be prepared in a staging area before publication so that partial failures do not overwrite the existing documentation set.
+- Backup artifacts should be created before any replacement occurs, and rollback should be supported through retained backups and documented recovery steps.
+- Retries, backoff, and timeout controls should be defined per stage to protect against transient failures and runaway workflows.
+- If a downstream dependency fails, the workflow should record the failure state, notify maintainers, and preserve the last known good documentation snapshot.
+
+## Operations and Observability
+
+- Workflow execution should produce structured logs for each stage including inputs, outputs, validation results, and failure reasons.
+- Audit logs should be retained for traceability, compliance, and troubleshooting.
+- Monitoring should cover workflow success rate, runtime, validation failures, backup health, and notification delivery.
+- Operational ownership should be clearly defined for pipeline maintenance, template updates, incident response, and merge approval.
+- A documented runbook should exist for common incidents such as failed validation, PR conflicts, backup failures, and notification issues.
+- Dashboards and alerts should support rapid diagnosis and response for maintainers.
+
+## Scalability and Cost Management
+
+- The system should prioritize change-based and incremental generation rather than regenerating the entire documentation set for every commit.
+- Caching should be used to avoid unnecessary reprocessing of unchanged content and dependencies.
+- Concurrency limits and queue-based execution should protect the system from contention during rapid or overlapping repository changes.
+- Large repositories should use module-level or file-change-based analysis to reduce latency and improve throughput.
+- Cost controls should include rate limits, caching policies, token budget awareness, and selective generation for high-impact changes.
+- Performance targets should be monitored and reviewed regularly to ensure the pipeline remains efficient as repository size and change volume grow.
+
 ## Mermaid Diagram
 
 ```mermaid
@@ -69,16 +105,17 @@ flowchart LR
     B --> C["Change Detector"]
     C --> D["Documentation Generator"]
     D --> E["Validator and Secrets Scanner"]
-
     E -->|Pass| F["Backup Store"]
-    F --> G["Create Branch and Commit Docs"]
-    G --> H["Open Pull Request"]
-    H --> I["Notify Maintainers"]
+    F --> G["Staging Area"]
+    G --> H["Create Branch and Commit Docs"]
+    H --> I["Approval and Policy Gate"]
+    I --> J["Open Pull Request"]
+    J --> K["Notify Maintainers"]
 
-    E -->|Fail| J["Block PR and Create Issue"]
-
-    B --> K["Audit Log Service"]
-    K --> L["Retention and Search"]
+    E -->|Fail| L["Fail Safe and Notify"]
+    B --> M["Audit Log Service"]
+    M --> N["Monitoring and Alerts"]
+    F --> O["Rollback and Recovery"]
 ```
 
 ## Notes
