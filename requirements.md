@@ -1,57 +1,100 @@
-# Automated Documentation Sync - Requirements
+# Automated Documentation Synchronization - Requirements
 
 ## Purpose
 
-Automatically synchronize documentation whenever source code changes.
+Automatically synchronize project documentation using GitHub Copilot and GitHub workflows whenever source code changes, reducing manual effort and ensuring documentation remains aligned with the latest codebase.
 
-## Functional Requirements
+---
 
-### FR-1
-Detect code changes in GitHub repository.
+# Business Requirements
 
-### FR-2
-Trigger documentation generation automatically.
+## BR-1
+Reduce manual effort required to maintain project documentation.
 
-### FR-3
+## BR-2
+Ensure project documentation remains synchronized with source code changes.
+
+## BR-3
+Improve documentation quality and consistency across repositories.
+
+## BR-4
+Provide traceability and auditability for documentation updates.
+
+---
+
+# Functional Requirements
+
+## FR-1
+Detect source code changes in a GitHub repository.
+
+## FR-2
+Trigger documentation generation automatically when code changes are detected.
+
+## FR-3
+Trigger the workflow when code is pushed to the main branch.
+
+## FR-4
 Generate updated README documentation.
 
-### FR-4
-Generate API documentation.
+## FR-5
+Generate updated API documentation.
 
-### FR-5
-Generate Architecture documentation.
+## FR-6
+Generate updated architecture documentation.
 
-### FR-6
-Store previous documentation as backup.
+## FR-7
+Create backup copies of existing documentation before replacement.
 
-### FR-7
-Create Pull Request containing updated documentation.
+## FR-8
+Store documentation backups for recovery purposes.
 
-### FR-8
-Generate logs for all execution steps.
+## FR-9
+Create a Pull Request containing generated documentation updates.
 
-### FR-9
-Notify users when synchronization fails.
+## FR-10
+Generate execution logs for all workflow activities.
 
-## Non Functional Requirements
+## FR-11
+Notify repository maintainers when documentation generation fails.
 
-### NFR-1
+## FR-12
+Validate generated documentation before creating a Pull Request.
+
+## FR-13
+Ensure generated documentation does not expose secrets, credentials, or sensitive information.
+
+---
+
+# Non-Functional Requirements
+
+## NFR-1
 Documentation generation should complete within 5 minutes.
 
-### NFR-2
-System should support repositories up to 10,000 files.
+## NFR-2
+The solution should support repositories containing up to 10,000 files.
 
-### NFR-3
-System should be secure and must not expose secrets.
+## NFR-3
+The solution must maintain at least 99% execution reliability.
 
-### NFR-4
-System should maintain 99% execution reliability.
+## NFR-4
+All workflow activities must be logged and auditable.
 
-### NFR-5
-All activities should be logged and auditable.
+## NFR-5
+The solution must follow GitHub security best practices.
 
-## Assumptions
+## NFR-6
+Generated documentation should be accurate, readable, and consistent.
+
+## NFR-7
+The system should be scalable to support multiple repositories.
+
+---
+
+# Assumptions
 
 - GitHub repository access is available.
 - GitHub Copilot Agent Mode is enabled.
+- GitHub Actions is available and configured.
 - Documentation templates are predefined.
+- The repository contains source code that can be analyzed for documentation generation.
+- 
