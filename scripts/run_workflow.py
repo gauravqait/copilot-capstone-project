@@ -29,11 +29,18 @@ def main() -> None:
 
     run_step([sys.executable, "scripts/detect_changes.py"], "Detecting changed files")
     run_step([sys.executable, "scripts/generate_docs.py"], "Generating documentation artifacts")
+    run_step([sys.executable, "scripts/validate_docs.py"], "Validating generated documentation")
+    run_step([sys.executable, "scripts/scan_secrets.py"], "Scanning generated documentation for secrets")
 
     summary = {
         "status": "completed",
         "base_ref": base_ref,
-        "workflow_steps": ["detect_changes", "generate_docs"],
+        "workflow_steps": [
+            "detect_changes",
+            "generate_docs",
+            "validate_docs",
+            "scan_secrets",
+        ],
     }
     Path("docs/generated/workflow-summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"

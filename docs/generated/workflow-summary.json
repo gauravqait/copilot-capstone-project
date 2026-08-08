@@ -1,0 +1,10 @@
+{
+  "status": "completed",
+  "base_ref": "origin/main",
+  "workflow_steps": [
+    "detect_changes",
+    "generate_docs",
+    "validate_docs",
+    "scan_secrets"
+  ]
+}

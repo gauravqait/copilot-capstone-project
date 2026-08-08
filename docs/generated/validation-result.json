@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "generated_files": [],
+  "issues": [],
+  "checks": {
+    "markdown_validation": true,
+    "secret_scan": true
+  }
+}

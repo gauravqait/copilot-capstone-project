@@ -8,8 +8,10 @@ The implementation currently includes:
 - GitHub Actions workflow scaffold
 - configuration files for pipeline and governance settings
 - documentation templates
-- implementation scope documentation
+- change detection and documentation generation scripts
+- validation and secret-scanning gates
+- implementation scope and workflow documentation
 
 ## Next Steps
 
-Future phases will add the full automation flow for change detection, documentation generation, validation, backup, and pull request creation.
+The next phase will add backup and rollback support, then notification and pull-request automation for approved documentation changes.

@@ -33,7 +33,15 @@ jobs:
         run: |
           python scripts/generate_docs.py
 
+      - name: Validate generated documentation
+        run: |
+          python scripts/validate_docs.py
+
+      - name: Scan for secrets in generated documentation
+        run: |
+          python scripts/scan_secrets.py
+
       - name: Summarize workflow execution
         run: |
           echo "Core workflow execution completed"
-          echo "Future phases will add validation, backup, notification, and PR automation"
+          echo "Validation and secret scanning completed successfully"
