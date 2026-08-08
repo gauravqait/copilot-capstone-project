@@ -97,4 +97,3 @@ The system should be scalable to support multiple repositories.
 - GitHub Actions is available and configured.
 - Documentation templates are predefined.
 - The repository contains source code that can be analyzed for documentation generation.
-- 
