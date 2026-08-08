@@ -54,28 +54,32 @@ Automated Documentation Synchronization keeps repository documentation aligned w
 - **Security**: OIDC for cloud auth, least-privilege action runners, signed commits (optional), workflow approval gates for orgs.
 - **Storage & Scale**: Use caching and file-change detection, incremental generation, and parallel analysis to meet NFR-1 and NFR-2.
 
-**Non-functional Considerations**
+## Non-functional Considerations
 
 - Aim for incremental generation and caching to meet the 5-minute target (NFR-1).
 - Use concurrency limits and batched analysis for repositories with up to 10,000 files (NFR-2).
 - Add retry/backoff strategies and health checks to meet 99% reliability (NFR-3).
 - Maintain an auditable retention policy for backups and logs (NFR-4, BR-4).
 
-**Mermaid Diagram**
+## Mermaid Diagram
 
 ```mermaid
 flowchart LR
-  A[Developer push to main] --> B[GitHub Actions Workflow]
-  B --> C[Change Detector]
-  C --> D[Documentation Generator<br/>Copilot Agent + tools]
-  D --> E[Validator & Secrets Scanner]
-  E -- pass --> F[Backup Store (branch/artifact/S3)]
-  F --> G[Create branch & commit generated docs]
-  G --> H[Open Pull Request]
-  H --> I[Notify Maintainers (Slack/Email/GitHub)]
-  E -- fail --> J[Block PR and Create Issue]
-  B --> K[Audit Log Service]
-  K --> L[Retention & Search]
+
+A[Developer Push to Main] --> B[GitHub Actions Workflow]
+B --> C[Change Detector]
+C --> D[Documentation Generator]
+D --> E[Validator and Secrets Scanner]
+
+E -->|Validation Passed| F[Backup Store]
+F --> G[Create Branch and Commit Docs]
+G --> H[Open Pull Request]
+H --> I[Notify Maintainers]
+
+E -->|Validation Failed| J[Block PR and Create Issue]
+
+B --> K[Audit Log Service]
+K --> L[Retention and Search]
 ```
 
 Notes:
