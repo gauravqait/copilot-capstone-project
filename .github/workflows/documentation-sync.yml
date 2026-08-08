@@ -7,14 +7,33 @@ on:
       - main
 
 jobs:
-  bootstrap:
-    name: Workflow Foundation
+  core-workflow:
+    name: Core workflow execution
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Confirm workflow scaffold
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Detect changes
+        env:
+          BASE_REF: origin/main
         run: |
-          echo "Documentation synchronization workflow scaffold initialized"
-          echo "Core automation will be added in later implementation phases"
+          python scripts/detect_changes.py
+
+      - name: Generate documentation artifacts
+        env:
+          BASE_REF: origin/main
+        run: |
+          python scripts/generate_docs.py
+
+      - name: Summarize workflow execution
+        run: |
+          echo "Core workflow execution completed"
+          echo "Future phases will add validation, backup, notification, and PR automation"
