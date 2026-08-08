@@ -9,6 +9,22 @@ import sys
 from pathlib import Path
 
 
+def run_backup_step() -> dict:
+    result = subprocess.run(
+        [sys.executable, "scripts/backup_docs.py", "backup"],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.stdout:
+        print(result.stdout)
+    if result.stderr:
+        print(result.stderr, file=sys.stderr)
+    if result.returncode != 0:
+        raise RuntimeError("Backup step failed")
+    return json.loads(result.stdout)
+
+
 def run_step(command: list[str], description: str) -> None:
     print(f"Running: {description}")
     result = subprocess.run(command, check=False, capture_output=True, text=True)
@@ -31,6 +47,7 @@ def main() -> None:
     run_step([sys.executable, "scripts/generate_docs.py"], "Generating documentation artifacts")
     run_step([sys.executable, "scripts/validate_docs.py"], "Validating generated documentation")
     run_step([sys.executable, "scripts/scan_secrets.py"], "Scanning generated documentation for secrets")
+    backup_result = run_backup_step()
 
     summary = {
         "status": "completed",
@@ -40,7 +57,9 @@ def main() -> None:
             "generate_docs",
             "validate_docs",
             "scan_secrets",
+            "backup_docs",
         ],
+        "backup": backup_result,
     }
     Path("docs/generated/workflow-summary.json").write_text(
         json.dumps(summary, indent=2), encoding="utf-8"

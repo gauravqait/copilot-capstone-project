@@ -41,7 +41,11 @@ jobs:
         run: |
           python scripts/scan_secrets.py
 
+      - name: Create documentation backup
+        run: |
+          python scripts/backup_docs.py backup
+
       - name: Summarize workflow execution
         run: |
           echo "Core workflow execution completed"
-          echo "Validation and secret scanning completed successfully"
+          echo "Validation, secret scanning, and backup creation completed successfully"
