@@ -45,6 +45,15 @@ jobs:
         run: |
           python scripts/backup_docs.py backup
 
+      - name: Create Pull Request with generated docs
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          BASE_BRANCH: main
+        run: |
+          python scripts/create_pr.py
+
       - name: Summarize workflow execution
         run: |
           echo "Core workflow execution completed"

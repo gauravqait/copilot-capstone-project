@@ -2,7 +2,7 @@
 """This file is responsible for checking the quality of the generated documentation."""
 """It performs validation checks on the generated markdown files and scans for potential secrets in the content."""
 """checks: “Is the documentation good enough?”"""
-"""validate_docs.py = quality check [i.e “well written” but still unsafe.]"""
+"""validate_docs.py = quality check [i.e A file can be “well written” but still unsafe.]"""
 
 import json
 import os
