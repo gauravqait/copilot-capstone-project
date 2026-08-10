@@ -64,15 +64,16 @@ def add_reviewers(repo: str, pr_number: int, token: str, reviewers: List[str]) -
 
 def main() -> None:
     pr_path = Path(os.environ.get("PR_RESULT_PATH", "docs/generated/pr-result.json"))
+
+    if DRY_RUN:
+        print("Dry-run mode: approval gate skipped because no PR will be created.")
+        sys.exit(0)
+
     token = os.environ.get("GITHUB_TOKEN")
     repo = os.environ.get("GITHUB_REPOSITORY")
 
     if not token or not repo:
         raise RuntimeError("GITHUB_TOKEN and GITHUB_REPOSITORY are required")
-
-    if DRY_RUN:
-        print("Dry-run mode: approval gate skipped because no PR will be created.")
-        sys.exit(0)
 
     policy_review = require_review()
     if not policy_review:

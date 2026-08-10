@@ -1,0 +1,426 @@
+{
+  "generated_at": "2026-08-10T12:05:35.939504+00:00",
+  "summary": {
+    "total": 59,
+    "passed": 57,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 2,
+    "pass_rate": 96.6
+  },
+  "tests": [
+    {
+      "classname": "tests.integration.test_approval_gate",
+      "name": "test_approval_gate_dry_run_exits_zero_without_token",
+      "status": "passed",
+      "duration_sec": 0.179,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_approval_gate",
+      "name": "test_approval_gate_dry_run_prints_skip_message",
+      "status": "passed",
+      "duration_sec": 0.151,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_approval_gate",
+      "name": "test_approval_gate_skipped_pr_exits_zero",
+      "status": "passed",
+      "duration_sec": 0.149,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_approval_gate",
+      "name": "test_approval_gate_normal_mode_requires_token",
+      "status": "passed",
+      "duration_sec": 0.172,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_backup_creates_backup_directory",
+      "status": "passed",
+      "duration_sec": 0.128,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_backup_creates_manifest_file",
+      "status": "passed",
+      "duration_sec": 0.136,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_backup_creates_latest_backup_pointer",
+      "status": "passed",
+      "duration_sec": 0.12,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_backup_skips_when_output_is_empty",
+      "status": "passed",
+      "duration_sec": 0.108,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_rollback_restores_original_content",
+      "status": "passed",
+      "duration_sec": 0.265,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_rollback_reports_restored_status",
+      "status": "passed",
+      "duration_sec": 0.29,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_backup_rollback",
+      "name": "test_rollback_skips_when_no_backups_exist",
+      "status": "passed",
+      "duration_sec": 0.115,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_dry_run_exits_zero_with_output_dir",
+      "status": "passed",
+      "duration_sec": 0.181,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_dry_run_writes_dry_run_status",
+      "status": "passed",
+      "duration_sec": 0.173,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_dry_run_includes_branch_name",
+      "status": "passed",
+      "duration_sec": 0.178,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_dry_run_skips_when_no_output_dir",
+      "status": "passed",
+      "duration_sec": 0.199,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_dry_run_result_stdout_is_json",
+      "status": "passed",
+      "duration_sec": 0.174,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_create_pr_dry_run",
+      "name": "test_create_pr_normal_mode_fails_without_token",
+      "status": "passed",
+      "duration_sec": 0.198,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_exits_zero",
+      "status": "passed",
+      "duration_sec": 0.237,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_creates_output_file",
+      "status": "passed",
+      "duration_sec": 0.221,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_output_schema",
+      "status": "passed",
+      "duration_sec": 0.229,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_head_to_head_has_no_diff",
+      "status": "passed",
+      "duration_sec": 0.241,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_no_diff_means_skip_generation",
+      "status": "passed",
+      "duration_sec": 0.241,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_detect_changes",
+      "name": "test_detect_changes_stdout_is_valid_json",
+      "status": "passed",
+      "duration_sec": 0.26,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_dry_run_exits_zero",
+      "status": "passed",
+      "duration_sec": 0.895,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_creates_change_detection_artifact",
+      "status": "passed",
+      "duration_sec": 0.852,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_creates_doc_generation_artifact",
+      "status": "passed",
+      "duration_sec": 0.935,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_creates_workflow_summary",
+      "status": "passed",
+      "duration_sec": 0.955,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_creates_dry_run_report",
+      "status": "passed",
+      "duration_sec": 0.891,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_dry_run_report_references_summary",
+      "status": "passed",
+      "duration_sec": 0.866,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_workflow_summary_lists_all_steps",
+      "status": "passed",
+      "duration_sec": 0.924,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_produces_audit_log",
+      "status": "passed",
+      "duration_sec": 0.852,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_audit_log_contains_expected_steps",
+      "status": "passed",
+      "duration_sec": 0.929,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_full_pipeline",
+      "name": "test_full_pipeline_normal_mode_exits_zero_when_no_changes",
+      "status": "passed",
+      "duration_sec": 0.879,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_generate_docs",
+      "name": "test_generate_docs_skips_when_no_changes",
+      "status": "passed",
+      "duration_sec": 0.105,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_generate_docs",
+      "name": "test_generate_docs_creates_three_artifacts",
+      "status": "passed",
+      "duration_sec": 0.124,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_generate_docs",
+      "name": "test_generate_docs_writes_generation_json",
+      "status": "passed",
+      "duration_sec": 0.095,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_generate_docs",
+      "name": "test_generate_docs_files_list_matches_disk",
+      "status": "passed",
+      "duration_sec": 0.129,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_generate_docs",
+      "name": "test_generate_docs_missing_context_file",
+      "status": "passed",
+      "duration_sec": 0.097,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_pr_ready_dry_run_status",
+      "status": "passed",
+      "duration_sec": 0.162,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_pr_ready_skipped_status",
+      "status": "passed",
+      "duration_sec": 0.174,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_pr_ready_missing_file_dry_run",
+      "status": "passed",
+      "duration_sec": 0.173,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_pr_ready_missing_file_normal_mode",
+      "status": "passed",
+      "duration_sec": 0.171,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_workflow_success_dry_run_appends_suffix",
+      "status": "skipped",
+      "duration_sec": 0.001,
+      "message": "workflow_success always calls the GitHub Checks API; requires a real GITHUB_TOKEN"
+    },
+    {
+      "classname": "tests.integration.test_notify",
+      "name": "test_notify_workflow_failure_does_not_crash",
+      "status": "skipped",
+      "duration_sec": 0.001,
+      "message": "workflow_failure always calls the GitHub Checks API; requires a real GITHUB_TOKEN"
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_passes_clean_file",
+      "status": "passed",
+      "duration_sec": 0.107,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_fails_github_pat_pattern",
+      "status": "passed",
+      "duration_sec": 0.106,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_fails_aws_key_pattern",
+      "status": "passed",
+      "duration_sec": 0.095,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_skips_when_no_generation_json",
+      "status": "passed",
+      "duration_sec": 0.099,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_output_schema",
+      "status": "passed",
+      "duration_sec": 0.091,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_uses_fixture_with_secret",
+      "status": "passed",
+      "duration_sec": 0.091,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_scan_secrets",
+      "name": "test_scan_secrets_multiple_clean_files",
+      "status": "passed",
+      "duration_sec": 0.093,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_passes_with_valid_content",
+      "status": "passed",
+      "duration_sec": 0.101,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_fails_with_secret_pattern",
+      "status": "passed",
+      "duration_sec": 0.097,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_fails_empty_file",
+      "status": "passed",
+      "duration_sec": 0.106,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_fails_insufficient_content",
+      "status": "passed",
+      "duration_sec": 0.101,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_skips_cleanly_with_no_generation",
+      "status": "passed",
+      "duration_sec": 0.096,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_output_schema",
+      "status": "passed",
+      "duration_sec": 0.096,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_uses_fixture_sample_doc",
+      "status": "passed",
+      "duration_sec": 0.104,
+      "message": ""
+    },
+    {
+      "classname": "tests.integration.test_validate_docs",
+      "name": "test_validate_docs_detects_fixture_with_secret",
+      "status": "passed",
+      "duration_sec": 0.096,
+      "message": ""
+    }
+  ]
+}
