@@ -11,6 +11,8 @@ import urllib.request
 from pathlib import Path
 from typing import Any, Dict, Optional
 
+DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes", "on")
+
 
 def get_env(name: str, default: Optional[str] = None) -> str:
     value = os.environ.get(name, default)
@@ -83,6 +85,8 @@ def main() -> None:
 
     if args.event == "workflow_success":
         summary = f"Documentation sync workflow completed successfully. [Run details]({run_url})"
+        if DRY_RUN:
+            summary += " (dry-run mode; no PR will be created.)"
         create_check_run(repo, sha, token, check_name, status="completed", conclusion="success", summary=summary, details={"run_url": run_url})
         print(summary)
         return
@@ -98,6 +102,9 @@ def main() -> None:
         status = pr_result.get("status")
         if status == "skipped":
             print("PR creation was skipped; no PR-ready notification needed.")
+            sys.exit(0)
+        if status == "dry_run":
+            print("Dry-run mode: PR-ready notification skipped because no PR was created.")
             sys.exit(0)
         if status != "passed":
             raise RuntimeError("PR was not created successfully; cannot notify PR ready state")

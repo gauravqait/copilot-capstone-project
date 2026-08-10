@@ -86,6 +86,7 @@ def main() -> None:
         summary = {
             "status": "completed",
             "base_ref": base_ref,
+            "dry_run": DRY_RUN,
             "workflow_steps": [
                 "detect_changes",
                 "generate_docs",
@@ -98,6 +99,18 @@ def main() -> None:
         Path("docs/generated/workflow-summary.json").write_text(
             json.dumps(summary, indent=2), encoding="utf-8"
         )
+        if DRY_RUN:
+            Path("docs/generated/dry-run-report.json").write_text(
+                json.dumps(
+                    {
+                        "dry_run": True,
+                        "message": "Dry-run mode enabled. The workflow executed validation and staging steps, but did not publish changes or create a PR.",
+                        "summary": summary,
+                    },
+                    indent=2,
+                ),
+                encoding="utf-8",
+            )
         print(json.dumps(summary, indent=2))
         audit.append_event(audit.event_for_step("workflow_summary", "passed", summary))
         # Generate monitoring metrics

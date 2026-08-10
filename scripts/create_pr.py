@@ -47,11 +47,33 @@ def main() -> None:
     repo = os.environ.get("GITHUB_REPOSITORY")
     base = os.environ.get("BASE_BRANCH", "main")
 
-    if not token or not repo:
-        fatal("GITHUB_TOKEN and GITHUB_REPOSITORY must be set in the environment")
-
     timestamp = datetime.utcnow().strftime("%Y%m%d%H%M%S")
     branch = f"docs-generated-{timestamp}"
+    output_dir = Path("docs/output")
+
+    if DRY_RUN:
+        if not output_dir.exists():
+            result = {
+                "status": "skipped",
+                "reason": "Dry-run mode; no generated docs found at docs/output",
+                "dry_run": True,
+            }
+            write_pr_result(result)
+            print(json.dumps(result, indent=2))
+            sys.exit(0)
+
+        result = {
+            "status": "dry_run",
+            "dry_run": True,
+            "branch": branch,
+            "reason": "Dry-run mode enabled; branch creation and PR submission skipped.",
+        }
+        write_pr_result(result)
+        print(json.dumps(result, indent=2))
+        sys.exit(0)
+
+    if not token or not repo:
+        fatal("GITHUB_TOKEN and GITHUB_REPOSITORY must be set in the environment")
 
     # Ensure we start from the latest base
     r = run(["git", "fetch", "origin", base])

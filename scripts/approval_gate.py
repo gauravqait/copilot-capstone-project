@@ -68,6 +68,10 @@ def main() -> None:
     if not token or not repo:
         raise RuntimeError("GITHUB_TOKEN and GITHUB_REPOSITORY are required")
 
+    if DRY_RUN:
+        print("Dry-run mode: approval gate skipped because no PR will be created.")
+        sys.exit(0)
+
     policy_review = require_review()
     if not policy_review:
         print("Review not required by policy. Approval gate passes.")
