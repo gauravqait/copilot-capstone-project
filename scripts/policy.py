@@ -47,10 +47,25 @@ def load_yaml(path: Path) -> Dict[str, Any]:
                     parents.pop()
                     indents.pop()
                 container = parents[-1]
-                if not isinstance(container, list):
-                    raise ValueError("List item found in non-list container")
-                container.append(value)
-                continue
+                if isinstance(container, list):
+                    container.append(value)
+                    continue
+                if isinstance(container, dict):
+                    if not container:
+                        raise ValueError("List item found in non-list container")
+                    last_key = next(reversed(container))
+                    last_value = container[last_key]
+                    if last_value == {}:
+                        new_list: list[Any] = []
+                        container[last_key] = new_list
+                        parents.append(new_list)
+                        indents.append(indent)
+                        new_list.append(value)
+                        continue
+                    if isinstance(last_value, list):
+                        last_value.append(value)
+                        continue
+                raise ValueError("List item found in non-list container")
 
             if ":" not in text:
                 continue
@@ -71,7 +86,7 @@ def load_yaml(path: Path) -> Dict[str, Any]:
                 raise ValueError("Mapping found in non-dict container")
 
             if value == {}:
-                container[key] = []
+                container[key] = {}
                 parents.append(container[key])
                 indents.append(indent)
 
