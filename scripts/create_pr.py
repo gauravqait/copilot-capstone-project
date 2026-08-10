@@ -15,6 +15,8 @@ from datetime import datetime
 from pathlib import Path
 import urllib.request
 import urllib.error
+import time
+from scripts import audit
 
 
 def run(cmd, **kwargs):
@@ -97,6 +99,7 @@ def main() -> None:
             result = json.loads(resp.read().decode())
             print(json.dumps(result, indent=2))
             print(f"Pull request created: {result.get('html_url')}")
+            audit.append_event(audit.event_for_step("create_pr", "passed", {"pr_url": result.get("html_url"), "branch": branch}))
             sys.exit(0)
     except urllib.error.HTTPError as e:
         body = e.read().decode()
@@ -117,12 +120,15 @@ def main() -> None:
                     if prs:
                         print(json.dumps(prs[0], indent=2))
                         print(f"Existing PR: {prs[0].get('html_url')}")
+                        audit.append_event(audit.event_for_step("create_pr", "passed", {"pr_url": prs[0].get('html_url'), "branch": branch}))
                         sys.exit(0)
             except Exception:
                 pass
             print(message)
+            audit.append_event(audit.event_for_step("create_pr", "failed", {"message": message, "branch": branch}))
             sys.exit(0)
         else:
+            audit.append_event(audit.event_for_step("create_pr", "failed", {"message": message, "code": e.code, "branch": branch}))
             fatal(f"Failed to create PR: {e.code} {message}")
 
 

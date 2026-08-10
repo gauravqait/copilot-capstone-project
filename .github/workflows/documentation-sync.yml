@@ -10,6 +10,9 @@ jobs:
   core-workflow:
     name: Core workflow execution
     runs-on: ubuntu-latest
+    env:
+      WORKFLOW_RUN_ID: ${{ github.run_id }}
+      AUDIT_LOG_PATH: docs/generated/audit-log.ndjson
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

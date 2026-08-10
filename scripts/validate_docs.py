@@ -10,6 +10,8 @@ import re
 import sys
 from pathlib import Path
 from typing import List, Tuple
+import time
+from scripts import audit
 
 
 def load_generation_result() -> dict:
@@ -61,6 +63,7 @@ def validate_secret_scan(files: List[str]) -> Tuple[bool, List[str]]:
 
 
 def main() -> None:
+    start = time.time()
     result = load_generation_result()
     files = result.get("files", [])
 
@@ -83,6 +86,10 @@ def main() -> None:
     output_path = Path("docs/generated/validation-result.json")
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
+
+    elapsed_ms = int((time.time() - start) * 1000)
+    status = "passed" if passed else "failed"
+    audit.append_event(audit.event_for_step("validate_docs", status, {"duration_ms": elapsed_ms, "issues": issues}))
 
     if not passed:
         print(json.dumps(output, indent=2), file=sys.stderr)

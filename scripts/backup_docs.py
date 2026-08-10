@@ -8,6 +8,8 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import List
+import time
+from scripts import audit
 
 
 def list_output_files(output_dir: Path) -> List[Path]:
@@ -50,12 +52,14 @@ def backup_docs(output_dir: Path, backup_root: Path) -> dict:
     latest_manifest_path = backup_root / "latest-backup.json"
     latest_manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
 
-    return {
+    result = {
         "status": "created",
         "backup_dir": str(backup_dir),
         "files": copied_files,
         "manifest": str(manifest_path),
     }
+    audit.append_event(audit.event_for_step("backup_docs", "passed", {"result": result}))
+    return result
 
 
 def rollback_docs(output_dir: Path, backup_root: Path) -> dict:
@@ -76,11 +80,13 @@ def rollback_docs(output_dir: Path, backup_root: Path) -> dict:
     latest_backup = backup_dirs[-1]
     manifest_path = latest_backup / "backup-manifest.json"
     if not manifest_path.exists():
-        return {
+        result = {
             "status": "failed",
             "reason": "Latest backup manifest missing",
             "restored_files": [],
         }
+        audit.append_event(audit.event_for_step("backup_docs_rollback", "failed", {"result": result}))
+        return result
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     restored_files: List[str] = []
@@ -92,12 +98,14 @@ def rollback_docs(output_dir: Path, backup_root: Path) -> dict:
         shutil.copy2(source_path, destination_path)
         restored_files.append(file_name)
 
-    return {
+    result = {
         "status": "restored",
         "backup_dir": str(latest_backup),
         "restored_files": restored_files,
         "manifest": str(manifest_path),
     }
+    audit.append_event(audit.event_for_step("backup_docs_rollback", "passed", {"result": result}))
+    return result
 
 
 def main() -> None:
