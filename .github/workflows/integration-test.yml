@@ -75,18 +75,4 @@ jobs:
         if: always()
         run: |
           echo "## Integration Test Summary" >> "$GITHUB_STEP_SUMMARY"
-          if [ -f docs/generated/integration-report.json ]; then
-            python - << 'PYEOF' >> "$GITHUB_STEP_SUMMARY"
-import json
-from pathlib import Path
-r = json.loads(Path('docs/generated/integration-report.json').read_text())
-s = r['summary']
-print('| Metric | Value |')
-print('|--------|-------|')
-print(f"| Total  | {s['total']} |")
-print(f"| Passed | {s['passed']} |")
-print(f"| Failed | {s['failed']} |")
-print(f"| Skipped | {s['skipped']} |")
-print(f"| Pass rate | {s['pass_rate']}% |")
-PYEOF
-          fi
+          python tests/integration/step_summary.py >> "$GITHUB_STEP_SUMMARY" || true
