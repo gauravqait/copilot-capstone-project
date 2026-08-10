@@ -15,6 +15,8 @@ if str(ROOT_DIR) not in sys.path:
 
 from scripts.policy import require_review, requested_reviewers, required_approvals
 
+DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes", "on")
+
 
 def request_json(url: str, token: str, method: str = "GET", data=None):
     headers = {

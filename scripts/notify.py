@@ -63,9 +63,9 @@ def create_pr_comment(repo: str, pr_number: int, token: str, body: str) -> None:
     request_json(api_url, token, method="POST", data={"body": body})
 
 
-def load_pr_result(result_path: Path) -> Dict[str, Any]:
+def load_pr_result(result_path: Path) -> Optional[Dict[str, Any]]:
     if not result_path.exists():
-        raise RuntimeError(f"PR result not found at {result_path}")
+        return None
     return json.loads(result_path.read_text(encoding="utf-8"))
 
 
@@ -99,6 +99,12 @@ def main() -> None:
 
     if args.event == "pr_ready":
         pr_result = load_pr_result(Path(args.pr_result))
+        if pr_result is None:
+            if DRY_RUN:
+                print("Dry-run mode: pr-result.json not found; PR-ready notification skipped.")
+            else:
+                print("pr-result.json not found; PR-ready notification skipped.")
+            sys.exit(0)
         status = pr_result.get("status")
         if status == "skipped":
             print("PR creation was skipped; no PR-ready notification needed.")

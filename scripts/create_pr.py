@@ -23,6 +23,8 @@ if str(ROOT_DIR) not in sys.path:
 
 from scripts import audit
 
+DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes", "on")
+
 PR_RESULT_PATH = Path(os.environ.get("PR_RESULT_PATH", "docs/generated/pr-result.json"))
 
 

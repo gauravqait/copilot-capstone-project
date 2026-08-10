@@ -2,6 +2,15 @@ name: documentation-sync
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Run in dry-run mode (validate only; no branch push or PR creation)'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
   push:
     branches:
       - main
@@ -19,6 +28,7 @@ jobs:
     env:
       WORKFLOW_RUN_ID: ${{ github.run_id }}
       AUDIT_LOG_PATH: docs/generated/audit-log.ndjson
+      DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

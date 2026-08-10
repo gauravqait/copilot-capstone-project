@@ -15,6 +15,10 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from scripts import audit
+
+DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "yes", "on")
+
+
 def run_backup_step() -> dict:
     start = time.time()
     result = subprocess.run(
