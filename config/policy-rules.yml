@@ -3,6 +3,8 @@
 
 policies:
   require_review_for_generated_docs: true
+  required_approvals: 1
+  requested_reviewers: []
   require_secret_scan: true
   require_backup_before_replace: true
   require_audit_logging: true

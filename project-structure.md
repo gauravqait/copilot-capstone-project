@@ -22,6 +22,7 @@ copilot-capstone-project/
 │   ├── validate_docs.py
 │   ├── backup_docs.py
 │   ├── create_pr.py
+│   ├── approval_gate.py
 │   ├── notify.py
 │   └── audit_log.py
 ├── docs/

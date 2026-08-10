@@ -6,6 +6,12 @@ on:
     branches:
       - main
 
+permissions:
+  checks: write
+  pull-requests: write
+  contents: write
+  issues: write
+
 jobs:
   core-workflow:
     name: Core workflow execution
@@ -65,8 +71,18 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
           GITHUB_RUN_ID: ${{ github.run_id }}
           GITHUB_SERVER_URL: ${{ github.server_url }}
+          PR_RESULT_PATH: docs/generated/pr-result.json
         run: |
           python scripts/notify.py pr_ready --pr-result docs/generated/pr-result.json
+
+      - name: Approval gate for generated docs
+        if: ${{ always() }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          PR_RESULT_PATH: docs/generated/pr-result.json
+        run: |
+          python scripts/approval_gate.py
 
       - name: Notify workflow success
         if: ${{ success() }}
