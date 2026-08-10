@@ -18,12 +18,21 @@ import urllib.error
 import time
 from scripts import audit
 
+PR_RESULT_PATH = Path(os.environ.get("PR_RESULT_PATH", "docs/generated/pr-result.json"))
+
 
 def run(cmd, **kwargs):
     return subprocess.run(cmd, check=False, capture_output=True, text=True, **kwargs)
 
 
+def write_pr_result(result: dict) -> None:
+    PR_RESULT_PATH.parent.mkdir(parents=True, exist_ok=True)
+    PR_RESULT_PATH.write_text(json.dumps(result, indent=2), encoding="utf-8")
+
+
 def fatal(msg: str, code: int = 1):
+    result = {"status": "failed", "error": msg}
+    write_pr_result(result)
     print(msg, file=sys.stderr)
     sys.exit(code)
 
@@ -50,6 +59,8 @@ def main() -> None:
 
     output_dir = Path("docs/output")
     if not output_dir.exists():
+        result = {"status": "skipped", "reason": "No generated docs found at docs/output"}
+        write_pr_result(result)
         print("No generated docs found at docs/output; nothing to commit")
         sys.exit(0)
 
@@ -61,6 +72,8 @@ def main() -> None:
     # If there are no staged changes, exit gracefully
     check = subprocess.run(["git", "diff", "--cached", "--quiet"])  # exit code 0 => no changes
     if check.returncode == 0:
+        result = {"status": "skipped", "reason": "No staged documentation changes"}
+        write_pr_result(result)
         print("No changes to commit; skipping PR creation")
         sys.exit(0)
 
@@ -99,7 +112,14 @@ def main() -> None:
             result = json.loads(resp.read().decode())
             print(json.dumps(result, indent=2))
             print(f"Pull request created: {result.get('html_url')}")
-            audit.append_event(audit.event_for_step("create_pr", "passed", {"pr_url": result.get("html_url"), "branch": branch}))
+            pr_result = {
+                "status": "passed",
+                "pr_url": result.get("html_url"),
+                "pr_number": result.get("number"),
+                "branch": branch,
+            }
+            write_pr_result(pr_result)
+            audit.append_event(audit.event_for_step("create_pr", "passed", pr_result))
             sys.exit(0)
     except urllib.error.HTTPError as e:
         body = e.read().decode()
@@ -120,12 +140,21 @@ def main() -> None:
                     if prs:
                         print(json.dumps(prs[0], indent=2))
                         print(f"Existing PR: {prs[0].get('html_url')}")
-                        audit.append_event(audit.event_for_step("create_pr", "passed", {"pr_url": prs[0].get('html_url'), "branch": branch}))
+                        pr_result = {
+                            "status": "passed",
+                            "pr_url": prs[0].get("html_url"),
+                            "pr_number": prs[0].get("number"),
+                            "branch": branch,
+                        }
+                        write_pr_result(pr_result)
+                        audit.append_event(audit.event_for_step("create_pr", "passed", pr_result))
                         sys.exit(0)
             except Exception:
                 pass
             print(message)
-            audit.append_event(audit.event_for_step("create_pr", "failed", {"message": message, "branch": branch}))
+            pr_result = {"status": "failed", "message": message, "branch": branch}
+            write_pr_result(pr_result)
+            audit.append_event(audit.event_for_step("create_pr", "failed", pr_result))
             sys.exit(0)
         else:
             audit.append_event(audit.event_for_step("create_pr", "failed", {"message": message, "code": e.code, "branch": branch}))
