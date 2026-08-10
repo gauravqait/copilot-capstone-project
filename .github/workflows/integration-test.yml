@@ -36,6 +36,9 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install dependencies
+        run: pip install pytest
+
       - name: Create required output directories
         run: |
           mkdir -p docs/generated docs/output docs/backups
@@ -71,17 +74,19 @@ jobs:
       - name: Summarize results
         if: always()
         run: |
-          echo "## Integration Test Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Integration Test Summary" >> "$GITHUB_STEP_SUMMARY"
           if [ -f docs/generated/integration-report.json ]; then
-            python -c "
-          import json, sys
-          r = json.load(open('docs/generated/integration-report.json'))
-          s = r['summary']
-          print(f'| Metric | Value |')
-          print(f'|--------|-------|')
-          print(f'| Total  | {s[\"total\"]} |')
-          print(f'| Passed | {s[\"passed\"]} |')
-          print(f'| Failed | {s[\"failed\"]} |')
-          print(f'| Pass rate | {s[\"pass_rate\"]}% |')
-          " >> $GITHUB_STEP_SUMMARY
+            python - << 'PYEOF' >> "$GITHUB_STEP_SUMMARY"
+import json
+from pathlib import Path
+r = json.loads(Path('docs/generated/integration-report.json').read_text())
+s = r['summary']
+print('| Metric | Value |')
+print('|--------|-------|')
+print(f"| Total  | {s['total']} |")
+print(f"| Passed | {s['passed']} |")
+print(f"| Failed | {s['failed']} |")
+print(f"| Skipped | {s['skipped']} |")
+print(f"| Pass rate | {s['pass_rate']}% |")
+PYEOF
           fi
