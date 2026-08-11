@@ -1,0 +1,10 @@
+{
+  "created_at": "2026-08-11T07:39:30.283325+00:00",
+  "source_dir": "docs\\output",
+  "backup_dir": "docs\\backups\\backup-20260811073930",
+  "files": [
+    "API.generated.md",
+    "ARCHITECTURE.generated.md",
+    "README.generated.md"
+  ]
+}

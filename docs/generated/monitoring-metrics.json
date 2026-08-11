@@ -1,41 +1,41 @@
 {
-  "total_events": 7,
+  "total_events": 15,
   "by_step": {
     "detect_changes": {
-      "ok": 1,
-      "failed": 0,
-      "other": 0,
-      "total": 1
-    },
-    "generate_docs": {
-      "ok": 1,
-      "failed": 0,
-      "other": 0,
-      "total": 1
-    },
-    "validate_docs": {
       "ok": 2,
       "failed": 0,
       "other": 0,
       "total": 2
     },
-    "scan_secrets": {
-      "ok": 1,
+    "generate_docs": {
+      "ok": 2,
       "failed": 0,
       "other": 0,
-      "total": 1
+      "total": 2
+    },
+    "validate_docs": {
+      "ok": 4,
+      "failed": 0,
+      "other": 0,
+      "total": 4
+    },
+    "scan_secrets": {
+      "ok": 2,
+      "failed": 0,
+      "other": 0,
+      "total": 2
     },
     "backup_docs": {
-      "ok": 1,
+      "ok": 3,
       "failed": 0,
       "other": 0,
-      "total": 1
+      "total": 3
     },
     "workflow_summary": {
-      "ok": 1,
+      "ok": 2,
       "failed": 0,
       "other": 0,
-      "total": 1
+      "total": 2
     }
   },
   "last_event": {
@@ -53,12 +53,17 @@
         "backup_docs"
       ],
       "backup": {
-        "status": "skipped",
-        "reason": "No documentation files found to backup",
-        "backup_dir": null
+        "status": "created",
+        "backup_dir": "docs\\backups\\backup-20260811073930",
+        "files": [
+          "API.generated.md",
+          "ARCHITECTURE.generated.md",
+          "README.generated.md"
+        ],
+        "manifest": "docs\\backups\\backup-20260811073930\\backup-manifest.json"
       }
     },
-    "timestamp": "2026-08-11T07:24:47.866109+00:00",
-    "run_id": "run-20260811072447"
+    "timestamp": "2026-08-11T07:39:30.294199+00:00",
+    "run_id": "verify-step7"
   }
 }

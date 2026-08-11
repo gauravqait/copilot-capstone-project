@@ -13,9 +13,14 @@
       "backup_docs"
     ],
     "backup": {
-      "status": "skipped",
-      "reason": "No documentation files found to backup",
-      "backup_dir": null
+      "status": "created",
+      "backup_dir": "docs\\backups\\backup-20260811073930",
+      "files": [
+        "API.generated.md",
+        "ARCHITECTURE.generated.md",
+        "README.generated.md"
+      ],
+      "manifest": "docs\\backups\\backup-20260811073930\\backup-manifest.json"
     }
   }
 }
