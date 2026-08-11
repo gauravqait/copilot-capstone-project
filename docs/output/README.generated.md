@@ -1,6 +1,6 @@
-# README - {{repository}}
+# README — test-owner/test-repo
 
-> Generated at `{{timestamp}}`
+> Generated at `20260811072539`
 
 ## Project Overview
 
@@ -24,4 +24,5 @@ Link to additional documentation files.
 
 The following files changed in the triggering commit range:
 
-{{changed_files}}
+- `scripts/detect_changes.py`
+- `scripts/generate_docs.py`

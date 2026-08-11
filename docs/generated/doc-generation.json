@@ -1,0 +1,11 @@
+{
+  "status": "generated",
+  "timestamp": "20260811072539",
+  "repository": "test-owner/test-repo",
+  "changed_files_count": 2,
+  "files": [
+    "docs\\output\\README.generated.md",
+    "docs\\output\\API.generated.md",
+    "docs\\output\\ARCHITECTURE.generated.md"
+  ]
+}

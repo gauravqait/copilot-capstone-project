@@ -1,0 +1,1 @@
+{"base_ref": "HEAD", "changed_files": ["scripts/detect_changes.py", "scripts/generate_docs.py"], "should_generate_docs": true, "changed_count": 2}

@@ -7,6 +7,7 @@ and a checked-out repository (fetch-depth: 0).
 
 """
 
+import base64
 import json
 import os
 import subprocess
@@ -28,8 +29,21 @@ DRY_RUN = os.environ.get("DRY_RUN", "false").strip().lower() in ("1", "true", "y
 PR_RESULT_PATH = Path(os.environ.get("PR_RESULT_PATH", "docs/generated/pr-result.json"))
 
 
-def run(cmd, **kwargs):
-    return subprocess.run(cmd, check=False, capture_output=True, text=True, **kwargs)
+def run(cmd, env=None, **kwargs):
+    return subprocess.run(cmd, check=False, capture_output=True, text=True, env=env, **kwargs)
+
+
+def _git_auth_env(token: str) -> dict:
+    """Return an env dict that injects GitHub credentials via Git's config env-var
+    mechanism.  The token never appears in a subprocess argument, remote URL,
+    or on-disk git config file."""
+    auth = base64.b64encode(f"x-access-token:{token}".encode()).decode()
+    return {
+        **os.environ,
+        "GIT_CONFIG_COUNT": "1",
+        "GIT_CONFIG_KEY_0": "http.https://github.com/.extraHeader",
+        "GIT_CONFIG_VALUE_0": f"AUTHORIZATION: basic {auth}",
+    }
 
 
 def write_pr_result(result: dict) -> None:
@@ -111,13 +125,13 @@ def main() -> None:
     if r.returncode != 0:
         fatal(f"git commit failed: {r.stderr}")
 
-    # Configure remote to use token for push
-    remote_url = f"https://x-access-token:{token}@github.com/{repo}.git"
-    r = run(["git", "remote", "set-url", "origin", remote_url])
-    if r.returncode != 0:
-        fatal(f"git remote set-url failed: {r.stderr}")
-
-    r = run(["git", "push", "--set-upstream", "origin", branch])
+    # Push using GIT_CONFIG env-var credential injection.
+    # The token is passed as an HTTP Authorization header via Git's environment-based
+    # config override (GIT_CONFIG_COUNT / GIT_CONFIG_KEY_n / GIT_CONFIG_VALUE_n,
+    # available since Git 2.31).  It never appears in a remote URL, subprocess
+    # argument list, or on-disk git config file.
+    auth_env = _git_auth_env(token)
+    r = run(["git", "push", "--set-upstream", "origin", branch], env=auth_env)
     if r.returncode != 0:
         fatal(f"git push failed: {r.stderr}")
 

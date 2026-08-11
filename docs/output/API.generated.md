@@ -1,6 +1,6 @@
-# API Documentation - {{repository}}
+# API Documentation — test-owner/test-repo
 
-> Generated at `{{timestamp}}`
+> Generated at `20260811072539`
 
 ## Overview
 
@@ -24,4 +24,5 @@ Document expected errors and status codes.
 
 The following files changed in the triggering commit range:
 
-{{changed_files}}
+- `scripts/detect_changes.py`
+- `scripts/generate_docs.py`

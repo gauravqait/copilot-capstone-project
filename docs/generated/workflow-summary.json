@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "base_ref": "HEAD",
+  "dry_run": true,
+  "workflow_steps": [
+    "detect_changes",
+    "generate_docs",
+    "validate_docs",
+    "scan_secrets",
+    "backup_docs"
+  ],
+  "backup": {
+    "status": "skipped",
+    "reason": "No documentation files found to backup",
+    "backup_dir": null
+  }
+}
